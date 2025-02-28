@@ -72,3 +72,45 @@ put_elem(person, 1, 26)
 # The function put_elem doesn’t modify the tuple. It returns the new version, keeping the old one intact.
 # person var still holds unmodified version {"Bob", 25}
 # Tuples are most appropriate for grouping a small, fixed number of elements together.
+
+
+
+# Lists
+# In Erlang, lists are used to manage dynamic, variable-sized collections of data.
+prime_numbers = [2, 3, 5, 7]
+# Lists may look like arrays, but they work like singly linked lists.
+Enum.at(prime_numbers, 3)
+# 7
+
+5 in prime_numbers
+# true
+4 in prime_numbers
+# false
+
+[1, 2, 3] ++ [4, 5] # concatenates lists
+# [1, 2, 3, 4, 5]
+
+# Recursive lists definition
+# A list is (head, tail) pair where head is the first
+# element of the list and tail “points” to the (head,
+# tail) pair of the remaining elements
+# In Elixir, there’s a special syntax to support recursive list definition:
+a_list = [head | tail]
+
+# empty list as tail indicates the end of entire list
+[1 | []]
+# [1]
+[1 | [2 | []]]
+# [1, 2]
+
+hd([1, 2, 3, 4]) # function to get head of a list
+tl([1, 2, 3, 4]) # function to get tail of a list
+
+# For the sake of completeness, it should be mentioned that the tail
+# doesn’t need to be a list. It can be any type. When the tail isn’t a list, it’s said that
+# the list is improper, and most of the standard list manipulations won’t work.
+# Improper lists have some special uses.
+a_list = [5, :value, true]
+new_list = [:new_element | a_list]
+# Construction of the new_list is an O(1) operation, and no memory copying occurs—
+# the tail of the new_list is the a_list.
