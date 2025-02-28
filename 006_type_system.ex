@@ -65,3 +65,10 @@ nil || false || 5 || true
 
 
 # tuples
+person = {"Bob", 25}
+elem(person, 1)
+# 25
+put_elem(person, 1, 26)
+# The function put_elem doesn’t modify the tuple. It returns the new version, keeping the old one intact.
+# person var still holds unmodified version {"Bob", 25}
+# Tuples are most appropriate for grouping a small, fixed number of elements together.
