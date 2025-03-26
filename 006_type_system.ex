@@ -114,3 +114,63 @@ a_list = [5, :value, true]
 new_list = [:new_element | a_list]
 # Construction of the new_list is an O(1) operation, and no memory copying occurs—
 # the tail of the new_list is the a_list.
+
+
+# maps
+# A map is a key–value store
+empty_map = %{}
+squares = %{1 => 1, 2 => 4, 3 => 9}
+squares = Map.new([{1, 1}, {2, 4}, {3, 9}])
+squares[2]
+# 4
+squares[4]
+# nil
+Map.get(squares, 2)
+# 4
+Map.get(squares, 4, :not_found)
+# :not_found
+Map.fetch(squares, 2)
+# {:ok, 4}
+Map.fetch(squares, 4)
+# :error
+Map.fetch!(squares, 4)
+# ** (KeyError) key 4 not found in: %{1 => 1, 2 => 4, 3 => 9}
+# (stdlib) :maps.get(4, %{1 => 1, 2 => 4, 3 => 9})
+squares = Map.put(squares, 4, 16)
+
+
+
+# structured data
+bob = %{:name => "Bob", :age => 25, :works_at => "Initech"}
+# OR
+bob = %{name: "Bob", age: 25, works_at: "Initech"}
+bob[:works_at]
+# "Initech"
+
+#OR
+bob.age
+# 25
+
+bob.non_existent_field
+# ** (KeyError) key :non_existent_field not found
+
+next_years_bob = %{bob | age: 26} # change age field
+
+
+
+# binaries and bitstrings
+# A binary is a chunk of bytes.
+<<1, 2, 3>> # create a 3 byte binary
+<<256>>
+# <<0>>
+<<257>>
+# <<1>>
+<<257::16>> # You can specify the size of each value and, thus, tell the compiler how many bits to use for that particular value
+# <<1, 1>>
+<<1::4, 15::4>>
+# <<31>>
+<<1, 2>> <> <<3, 4>> # <> operator concatenates 2 bitstrings
+
+
+
+# strings
