@@ -174,3 +174,116 @@ next_years_bob = %{bob | age: 26} # change age field
 
 
 # strings
+# Elixir doesn’t have a dedicated string type.
+
+# binary strings
+a_str = "This is a string"
+"Embedded expression: #{3 + 0.14}"
+"
+This is
+a multiline string
+"
+~s(This is also a string) # sigil syntax for declaring a string
+# There’s also an uppercase version ~S that doesn’t handle interpolation or escape characters (\)
+~S(Not interpolated #{3 + 0.14})
+# "Not interpolated \#{3 + 0.14}"
+"""
+Heredoc must end on its own line """
+"""
+
+"String" <> " " <> "concatenation" # because strings are binaries, you can concatenate them with the <> operator
+
+# character lists
+# A character list (also called a charlist) is a list in which each element is an integer code point of the corresponding character.
+IO.puts([65, 66, 67])
+# ABC
+IO.puts(~c"ABC") # ~c sigil syntax of charlists
+IO.puts('ABC') # single quote syntax
+
+# since IO.puts('ABC') the ~c is recommended method
+# Character lists aren’t compatible with binary strings.
+
+
+
+# first-class functions
+square = fn x ->
+  x * x
+end
+
+square.(5) # the "." operator is needed for such function call
+fn x -> IO.puts(x) end # can be replaced with &IO.puts/1 syntax
+lambda = &(&1 * &2 + &3) # short lambda syntax
+# This snippet creates a three-arity lambda. Each argument is referred to via the &n placeholder, which identifies the nth argument of the function
+
+
+
+# closures
+# lambda can reference any var from outside scope
+outside_var = 5
+my_lambda = fn ->
+  IO.puts(outside_var)
+end
+
+# A closure always captures a specific memory location. Rebinding of a var has no effect.
+outside_var = 5
+lambda = fn -> IO.puts(outside_var) end
+outside_var = 6
+lambda.()
+# 5
+
+
+# range
+range = 1..2
+2 in range
+# true
+-1 in range
+# false
+Enum.each(
+  1..3,
+  &IO.puts/1
+)
+# 1
+# 2
+# 3
+
+
+
+# keyword list
+# A keyword list is a special case of a list, where each element is a two-element tuple, and
+# the first element of each tuple is an atom. The second element can be of any type.
+days = [{:monday, 1}, {:tuesday, 2}, {:wednesday, 3}]
+days = [monday: 1, tuesday: 2, wednesday: 3] # shorter syntax
+IO.inspect([100, 200, 300], [width: 3])
+IO.inspect([100, 200, 300], width: 3, limit: 1) # you can ommit []
+# It is possible to simulate optional arguments. You can accept a keyword list as the last argument of your
+# function and make that argument default to an empty list:
+def my_fun(arg1, arg2, opts \\ []) do
+  # ...
+end
+
+
+
+# MapSet
+# A MapSet is the implementation of a set—a store of unique values.
+days = MapSet.new([:monday, :tuesday, :wednesday])
+
+
+
+# Times and dates
+# types for working with date/time are Date, Time, DateTime, and NaiveDateTime.
+date = ~D[2023-01-31] # ~D sigil for creating a date
+date.year
+# 2023
+date.day
+# 31
+
+time = ~T[11:59:12.00007] # ~T sigil for creating time
+
+naive_datetime = ~N[2023-01-31 11:59:12.000007]
+utc_datetime = ~U[2023-01-31 11:59:12.000007Z]
+utc_datetime.time_zone
+# "Etc/UTC"
+
+
+
+# macros
